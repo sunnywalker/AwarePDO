@@ -16,7 +16,7 @@
  *
  * @package AwarePDOClasses
  * @license MIT
- * @version 2013-05-22.00
+ * @version 2013-05-23.00
  * @author Sunny Walker <swalker@hawaii.edu>
  */
 
@@ -193,7 +193,7 @@ class AwarePDOStatement extends PDOStatement {
 	public function getQuery() {
 		$return = $this->query;
 		foreach ($this->params as $key=>$value) {
-			$return = str_replace($key, $this->conn->quote($value), $return); // quote each value
+			$return = preg_replace('/'.$key.'\\b/', $this->conn->quote($value), $return); // quote each value
 		}
 		return $return;
 	} // getQuery()
