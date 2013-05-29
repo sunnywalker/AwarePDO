@@ -27,6 +27,8 @@
  * @package AwarePDO
  */
 class AwarePDO extends PDO {
+	const VERSION = '2013-05-29.00';
+
 	/**
 	 * Constructor which changes the statement class and error mode.
 	 *
