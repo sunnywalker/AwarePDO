@@ -41,7 +41,7 @@ class Tester
      *
      * @param  AwarePDOStatement &$rs  Recordset
      */
-    function dumpData(&$rs)
+    function dumpData(AwarePDOStatement &$rs)
     {
         echo '<p>Found <strong>'.$rs->num_rows.'</strong> rows.</p>';
         if ($rs->num_rows > 0) {
