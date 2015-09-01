@@ -59,7 +59,7 @@ This method behaves normally (the same as [PDOStatement::rowCount()](http://php.
 
 ## Dependencies
 
-This plugin was written to support PHP 5 >= 5.1 with PDO and the MySQL PDO driver. Anything other than this has been untested.
+This plugin was written to support PHP 5 >= 5.3 with PDO and the MySQL PDO driver. Anything other than this has been untested.
 
 ## Sample Usage
 
