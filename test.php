@@ -26,7 +26,6 @@ class Tester
      * @param  string  $comment       Comment to display preceding the result
      * @param  mixed   $result        Result to display after the comment
      * @param  boolean $yesno_result  Filter the result through {@link yesno()}?
-     * @return string
      */
     function run($comment, $result, $yesno_result = true)
     {
@@ -36,7 +35,24 @@ class Tester
             echo '<p class="log">'.htmlspecialchars($comment).': <code>'.htmlspecialchars($result).'</code></p>';
         }
     } // run()
-}
+
+    /**
+     * Iterate through a recordset and display the data.
+     *
+     * @param  AwarePDOStatement &$rs  Recordset
+     */
+    function dumpData(&$rs)
+    {
+        echo '<p>Found <strong>'.$rs->num_rows.'</strong> rows.</p>';
+        if ($rs->num_rows > 0) {
+            echo '<div class="data-block">';
+            while ($row_rs = $rs->fetch(PDO::FETCH_ASSOC)) {
+                echo '<p>'.json_encode($row_rs).'</p>';
+            }
+            echo '</div>';
+        }
+    } // dumpData()
+} // Tester
 
 $t = new Tester();
 ?>
@@ -84,14 +100,7 @@ try {
     $t->run('$rsList = $conn->query($query_rsList)', $rsList = $conn->query($query_rsList));
     $t->run('$rsList instance of AwarePDOStatement', $rsList instanceof AwarePDOStatement);
     $t->run('$rsList->query', $rsList->query, false);
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
 } catch (PDOException $e) {
     echo '<p class="notice">'.htmlspecialchars($e->getMessage()).'</p>';
 }
@@ -109,14 +118,7 @@ try {
     $t->run('$rsList->query', $rsList->query, false);
     $t->run('$rsList->getParams()', json_encode($rsList->getParams()), false);
     $t->run('$rsList->getQuery()', $rsList->getQuery(), false);
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
 } catch (PDOException $e) {
     echo '<p class="notice">'.htmlspecialchars($e->getMessage()).'</p>';
 }
@@ -135,14 +137,7 @@ try {
     $t->run('$rsList->getParams()', json_encode($rsList->getParams()), false);
     $t->run('$rsList->getQuery()', $rsList->getQuery(), false);
     $rsList->execute();
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
 } catch (PDOException $e) {
     echo '<p class="notice">'.htmlspecialchars($e->getMessage()).'</p>';
 }
@@ -162,36 +157,15 @@ try {
     $t->run('$rsList->getParams()', json_encode($rsList->getParams()), false);
     $t->run('$rsList->execute()', $rsList->execute());
     $t->run('$rsList->getQuery()', $rsList->getQuery(), false);
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
     $t->run('$search = \'orange\'', $search = 'orange');
     $t->run('$rsList->execute()', $rsList->execute());
     $t->run('$rsList->getQuery()', $rsList->getQuery(), false);
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
     $t->run('$search = \'%a%\'', $search = '%a%');
     $t->run('$rsList->execute()', $rsList->execute());
     $t->run('$rsList->getQuery()', $rsList->getQuery(), false);
-    echo '<p>Found <strong>'.$rsList->num_rows.'</strong> rows.</p>';
-    if ($rsList->num_rows > 0) {
-        echo '<div class="data-block">';
-        while ($row_rsList = $rsList->fetch(PDO::FETCH_ASSOC)) {
-            echo '<p>'.json_encode($row_rsList).'</p>';
-        }
-        echo '</div>';
-    }
+    $t->dumpData($rsList);
 } catch (PDOException $e) {
     echo '<p class="notice">'.htmlspecialchars($e->getMessage()).'</p>';
 }
